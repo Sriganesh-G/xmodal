@@ -7,92 +7,134 @@ function App() {
     username: "",
     email: "",
     phonenumber: "",
-    dateofbirth: ""
-});
-const dataRef = useRef(null);
-const [vali, setvali] = useState(false);
+    dateofbirth: "",
+  });
+  const dataRef = useRef(null); // Ref for the modal content
+  const [vali, setVali] = useState(false); // State to manage modal open/close
 
-function handleData(e) {
+  // Handle form data
+  function handleData(e) {
     const { name, value } = e.target;
     setData((d) => ({
-        ...d,
-        [name]: value
+      ...d,
+      [name]: value,
     }));
-}
+  }
 
-const handleClickOutside = (event) => {
+  // Handle clicking outside the modal to close it
+  const handleClickOutside = (event) => {
     if (dataRef.current && !dataRef.current.contains(event.target)) {
-        setvali(false);
+      setVali(false); // Close modal if outside is clicked
     }
-};
+  };
 
-useEffect(() => {
+  // UseEffect to add/remove event listener on modal open/close
+  useEffect(() => {
     if (vali) {
-        document.addEventListener('mousedown', handleClickOutside);
+      // Add event listener when modal is open
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-        document.removeEventListener('mousedown', handleClickOutside);
+      // Remove event listener when modal is closed
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
+      // Clean up event listener on component unmount
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-}, [vali]);
+  }, [vali]);
 
-function ValidateNumber() {
+  // Validate phone number (ensure 10 digits)
+  function ValidateNumber() {
     if (data.phonenumber.length !== 10) {
-        alert("Invalid Phone Number. Please Enter a 10-digit Phone Number.");
-        return false;
+      alert("Invalid Phone Number. Please Enter a 10-digit Phone Number.");
+      return false;
     }
     return true;
-}
+  }
 
-function ValidateDate() {
+  // Validate date of birth (ensure it's not a future date)
+  function ValidateDate() {
     const selecteddate = new Date(data.dateofbirth);
     const today = new Date();
     selecteddate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
     if (selecteddate >= today) {
-        alert("Invalid Date of Birth. Date of Birth cannot be in Future.");
-        return false;
+      alert("Invalid Date of Birth. Date of Birth cannot be in Future.");
+      return false;
     }
     return true;
-}
+  }
 
-function handleSubmit(e) {
+  // Handle form submission
+  function handleSubmit(e) {
     e.preventDefault();
     if (ValidateNumber() && ValidateDate()) {
-        setvali(false);
+      setVali(false); // Close the modal on successful submission
     }
-}
+  }
 
-return (
+  return (
     <div>
-        {!vali && (
-            <div>
-                <h1>User Details Modal</h1>
-                <button onClick={() => setvali(true)}>Open Form</button>
-            </div>
-        )}
-        {vali && (
-            <div className="modal">
-                <div className="modal-content" ref={dataRef}>
-                    <form className="form" onSubmit={handleSubmit}>
-                        <h2>Fill Details</h2>
-                        <label>Username:</label>
-                        <input type="text" id="username" value={data.username} onChange={handleData} name="username" required />
-                        <label>Email Address:</label>
-                        <input type="email" id="email" value={data.email} name="email" onChange={handleData} required />
-                        <label>Phone number:</label>
-                        <input type="number" id="phone" value={data.phonenumber} name="phonenumber" onChange={handleData} required />
-                        <label>Date of Birth:</label>
-                        <input type="date" id="dob" value={data.dateofbirth} name="dateofbirth" onChange={handleData} required />
-                        <button className="submit-button">Submit</button>
-                    </form>
-                </div>
-            </div>
-        )}
+      {/* Display the button to open modal */}
+      {!vali && (
+        <div>
+          <h1>User Details Modal</h1>
+          <button onClick={() => setVali(true)}>Open Form</button>
+        </div>
+      )}
+
+      {/* Modal section */}
+      {vali && (
+        <div className="modal">
+          {/* Pass ref to the modal content for outside click detection */}
+          <div className="modal-content" ref={dataRef}>
+            {/* Modal form */}
+            <form className="form" onSubmit={handleSubmit}>
+              <h2>Fill Details</h2>
+              <label>Username:</label>
+              <input
+                type="text"
+                id="username"
+                value={data.username}
+                onChange={handleData}
+                name="username"
+                required
+              />
+              <label>Email Address:</label>
+              <input
+                type="email"
+                id="email"
+                value={data.email}
+                name="email"
+                onChange={handleData}
+                required
+              />
+              <label>Phone number:</label>
+              <input
+                type="number"
+                id="phone"
+                value={data.phonenumber}
+                name="phonenumber"
+                onChange={handleData}
+                required
+              />
+              <label>Date of Birth:</label>
+              <input
+                type="date"
+                id="dob"
+                value={data.dateofbirth}
+                name="dateofbirth"
+                onChange={handleData}
+                required
+              />
+              <button className="submit-button">Submit</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
-);
+  );
 }
 
 export default App;
