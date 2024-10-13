@@ -13,17 +13,17 @@
 }
 .modal-content {
   border: 1px solid gray;
-  margin: 0 auto;
-  /* padding: 10px; */
   background-color: rgba(0, 0, 0, 0.3);
-
-  width: 100%;
-  height: 100vh;
+  margin: 2% 0% 0% 0%;
   z-index: 10;
-  position: fixed;
-  top: 0;
   display: grid;
   place-items: center;
+  width: 60%;
+  max-width: 60%;
+  position: relative;
+  right: 0;
+  left: 15%;
+  padding: 0%;
 }
 form {
   background-color: white;
@@ -32,10 +32,7 @@ form {
   flex-direction: column;
   gap: 10px;
   height: fit-content;
-  width: 30%;
-  margin: 0 auto;
-  /* position: fixed;
-  transform: translate(100%, 100%); */
+  width: 80%;
 }
 .input-group {
   display: flex;
