@@ -1,0 +1,16 @@
+.modalContainer {
+  margin: 2% 20%;
+  padding: 1% 5%;
+  border-radius: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 2%;
+  border-radius: 10px;
+  border: none;
+}
